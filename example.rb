@@ -34,10 +34,12 @@ end
 get '/getusertimeline' do 
   p "*" * 80 + "getusertimeline"
   client = WeiboOAuth2::Client.new
-  aces_token = session[:access_token]
+  p session[:access_token]
+  client.get_token_from_hash({:access_token=>session[:access_token],:expires_at=>session[:expires_at]})
   statuses = client.statuses
-  @dataa =  statuses.user_timeline({:access_token => aces_token, :uid => 2556033090})
-  p dataa
+  p client.statuses
+  dataa = statuses.user_timeline({:access_token => session[:access_token], :uid => 3326230620})
+  p dataa.statuses.map(&:text)
 end
 
 get '/connect' do
